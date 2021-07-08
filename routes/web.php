@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes(['verify' => true]);
-
-Route::get('/home', 'HomeController@index')->middleware('can:manageContent')->name('home');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/home', 'HomeController@index')->middleware('can:manageContent')->name('home');
 
 //Admin routes
 Route::Resource('/category', 'categoryController');
@@ -25,7 +25,7 @@ Route::Resource('/category', 'categoryController');
 
 Route::post('/massdestroy', 'categoryController@massDelete')->name('category.delete');
 //Client side routes
-Route::get('/landing', 'clientController@index')->middleware([UserStatus::class])->name('client.landing-page');
+Route::get('/', 'clientController@index')->middleware([ UserStatus::class])->name('client.landing-page');
 Route::get('search_content', 'clientController@searchcontent')->name('client.search-page');
 Route::get('categories/{slug}', 'clientController@category')->name('client.categories');
 Route::get('pagedetail/{slug}', 'clientController@getpages')->name('client.pages');
@@ -73,3 +73,10 @@ Route::post('/pay{id}', 'FlutterwaveController@initialize')->name('pay');
 Route::get('/rave/callback', 'FlutterwaveController@callback')->name('callback');
 
 Route::post('/chooseplan{id}', 'FlutterwaveController@plan')->name('plan.choose');
+//cancel, resume, check my subscroption Routes
+Route::get('viewMySubscription', 'ClientController@Usersubscription')->name('view.subscription');
+//cancel Subscription
+Route::post('cancel/{id}', 'SubscriptionController@cancel')->name('Subscription.cancel');
+//resume Subscription
+Route::post('activate/{id}', 'SubscriptionController@resume')->name('Subscription.activate');
+});

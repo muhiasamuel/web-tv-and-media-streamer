@@ -7,36 +7,39 @@ use Illuminate\Http\Request;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use Auth;
 use DB;
-
+use Session;
 class SubscriptionController extends Controller
 {
+    
+
     //cancel subscription
-    public function Cancel(){
-        $id = DB::table('users')->where('id', Auth::user()->id)->get('subscription_id');
+    public function Cancel($id){
+       
         $subscription_data = Flutterwave::subscriptions()->cancel($id);
-        foreach ($subscription_data as $data){
-            $userSubscription_status=$data['status'];   
-        }
+       $subscription_data = $subscription_data['data'];
+       $userSubscription_id = $subscription_data['id'];
+       $userSubscription_status = $subscription_data['status'];
         DB::table('users')
         ->where('id', Auth::user()->id)
-        ->update(['status'=>$userSubscription_status]);
-        return redirect()->route('activate', ['parameterKey' => 'value']);    
+        ->update(['status'=>$userSubscription_status,'subscription_id' => $userSubscription_id,]);
+        session::flash('alert1',' You have successifully Cancelled your subscription. Hope you will visit again. We regret to see you go.');
+        return redirect()->route('view.subscription');    
         
     }
 
 
     //resume cancelled subscription
 
-    public function resume(){
-        $id = DB::table('users')->where('id', Auth::user()->id)->get('subscription_id');
+    public function resume($id){
         $subscription_data = Flutterwave::subscriptions()->activate($id);
-        foreach ($subscription_data as $data){
-            $userSubscription_status=$data['status'];   
-        }
-        DB::table('users')
-        ->where('id', Auth::user()->id)
-        ->update(['status'=>$userSubscription_status]);
-        return redirect()->route('landing', ['parameterKey' => 'value']);    
-        
+        $subscription_data = $subscription_data['data'];
+        $userSubscription_id = $subscription_data['id'];
+        $userSubscription_status = $subscription_data['status'];
+         DB::table('users')
+         ->where('id', Auth::user()->id)
+         ->update(['status'=>$userSubscription_status,'subscription_id' => $userSubscription_id,]);
+         session::flash('alert',' You have successifully resumed your subscription. Enjoy Watching');
+         return redirect()->route('client.landing-page'); 
+       
     }
 }

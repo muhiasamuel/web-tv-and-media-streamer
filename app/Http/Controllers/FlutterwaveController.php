@@ -48,7 +48,7 @@ class FlutterwaveController extends Controller
             'amount' => $plan['amount'],
             'email' => request()->email,
             'tx_ref' => $reference,
-            'currency' => "NGN",
+            'currency' => "KES",
             'payment_plan'=>$plan['id'],
             'redirect_url' => route('callback'),
             'customer' => [

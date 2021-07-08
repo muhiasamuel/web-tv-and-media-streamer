@@ -18,7 +18,11 @@ class CheckUserStatus
     {
         if (auth()->user()->status == 'active') {
             return $next($request);
-        }
+        }elseif(auth()->user()->status == 'cancelled'){
+            return redirect()->route('activate');
+        }else{
+
+       
           
           /*$Current = $customers->filter(function ($value, $key) {
             return data_get($value, 'customer_email') == Auth::user()->email;
@@ -37,6 +41,7 @@ class CheckUserStatus
        });*/
        echo('You Are Not Subscribed To Any Plan. Subscribe Here');
        return redirect()->route('plan');
+    }
  
     }
 }

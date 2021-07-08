@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use Auth;
 use DB;
 use App\Category;
 use Illuminate\Support\Facades\Cache;
@@ -103,4 +105,22 @@ class clientController extends Controller
         $page = DB::table('pages')->where('slug', $slug)->first();
         return view('Client.landing.pages',['page'=>$page]);
     }
+
+     //entry page
+     public function Usersubscription(){
+        $plans = Flutterwave::subscriptions()->getall();
+        $users = collect($plans['data']);
+       
+        $users=collect($users);
+        $person = $users->filter(function ($value, $key) {
+            return collect($value)->contains('customer_email', Auth::user()->email);
+        });
+        $person=$person->filter()->all();
+        foreach($person as $Subscribed_user){
+            $plan_id = $Subscribed_user['plan'];
+            $Userplan = Flutterwave::plans()->fetch($plan_id);
+            $Userplan = $Userplan['data'];
+            return view('Client.landing.subscription',['Subscribed_user'=>$Subscribed_user,'Userplan'=>$Userplan]);
+        }
+     }
 }

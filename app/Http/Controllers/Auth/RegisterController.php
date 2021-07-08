@@ -42,7 +42,7 @@ class RegisterController extends Controller
     }
     public function redirectTo(){
         
-        $this->redirectTo = \route('plan');
+        $this->redirectTo = \route('client.landing-page');
         return $this->redirectTo;
      }
 

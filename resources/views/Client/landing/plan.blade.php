@@ -1,4 +1,4 @@
-@extends('layouts.head')
+@extends('layouts.app')
 
 @section('content')
 <link href="{{ asset('css/plan.css') }}" rel="stylesheet">

@@ -65,7 +65,7 @@
 					    <div class="mainmenu">
                             <ul id="primary-menu">
                             
-                                <li><a  href="{{url('/landing')}}" class="text-uppercase">HOME</a></li>
+                                <li><a  href="{{url('/')}}" class="text-uppercase">HOME</a></li>
                                 @foreach($categories as $category)
                                 <li><a href="{{url('categories')}}/{{$category->slug}}" class="text-uppercase">{{$category->title}}</a></li>
                                 @endforeach
@@ -80,22 +80,22 @@
 								</li>
 								<li><a href="#"  class="text-uppercase">{{ Auth::user()->name }} <i class="icofont icofont-simple-down"></i></a>
 									<ul  class="text-uppercase" id="dropdown">
-											
+									
 										<li><a href="#">My Account</a></li>
 										<li><a href="#">Watchlist</a></li>
 										<li><a href="#">Collections</a></li>
-										<li><a href="#">My Subscription</a></li>
+										<li><a href="{{url('viewMySubscription')}}">My Subscription</a></li>
 										<li>
-											<a  href="{{ route('logout') }}"
-										onclick="event.preventDefault();
-														document.getElementById('logout-form').submit();">
-												{{ __('Logout') }}
-											
-											</a>
-										</li>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+												<a  href="{{ route('logout') }}"
+											onclick="event.preventDefault();
+															document.getElementById('logout-form').submit();">
+													{{ __('Logout') }}
+												
+												</a>
+											</li>
+										<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+											@csrf
+										</form>
 									
 									</ul>
 								</li>
@@ -106,7 +106,12 @@
 			</div>
 			<div id="search_output"></div>
 		</header>
-						
+		@if(Session::has('alert'))
+                    <div class="alert alert-success alert-dissmissable fade-out">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a> 
+                        {{ Session('alert')}}
+                    </div> 
+                @endif 			
 		
        @yield('content')
 		<!-- footer section start -->

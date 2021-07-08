@@ -21,11 +21,12 @@ body {
 
 /*PRICE COLOR CODE START*/
 #generic_price_table .generic_content{
-  background-color: #fff;
+  background-color:rgba(0, 0, 0, 0.3);
+  color: #f5f6f8;
 }
 
 #generic_price_table .generic_content .generic_head_price{
-  background-color: #f6f6f6;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 #generic_price_table .generic_content .generic_head_price .generic_head_content .head_bg{
@@ -33,35 +34,36 @@ body {
 }
 
 #generic_price_table .generic_content .generic_head_price .generic_head_content .head span{
-  color: #525252;
+  color: #f8f4f4;
 }
 
 #generic_price_table .generic_content .generic_head_price .generic_price_tag .price .sign{
-    color: #414141;
+    color: #bdbcbc;
 }
 
 #generic_price_table .generic_content .generic_head_price .generic_price_tag .price .currency{
-    color: #414141;
+    color: #cecdcd;
 }
 
 #generic_price_table .generic_content .generic_head_price .generic_price_tag .price .cent{
-    color: #414141;
+    color: #e4e4e4;
 }
 
 #generic_price_table .generic_content .generic_head_price .generic_price_tag .month{
-    color: #414141;
+    color: #fcf9f9;
 }
 
 #generic_price_table .generic_content .generic_feature_list ul li{  
-  color: #a7a7a7;
+  color: #fdfbfb;
 }
 
 #generic_price_table .generic_content .generic_feature_list ul li span{
-  color: #414141;
+  color: #fafafa;
 }
 #generic_price_table .generic_content .generic_feature_list ul li:hover{
-  background-color: #E4E4E4;
+  background-color: #e74d05;
   border-left: 5px solid #2ECC71;
+  color: #000;
 }
 
 #generic_price_table .generic_content .generic_price_btn a{
@@ -92,18 +94,7 @@ body {
 .row .table{
     padding: 28px 0;
 }
-input{
-  padding: 20px;
-  font-family: inherit;
-  width: 80%;
-  border: 0;
-  outline: 0;
-  font-size: 1.3rem;
-  color: rgb(26, 24, 24);
-  padding: 7px 10px;
-  background: transparent;
-  border-bottom: 1px solid rgb(4, 231, 91);
-}
+
 input:focus{
   border-bottom: 2px solid rgb(4, 119, 128);
   transition: border-color 0.2s;
@@ -443,4 +434,7 @@ input:focus{
   background-color: #666;
   color: #FFF;
   text-decoration:none;
+}
+.btn-success:hover{
+  background-color: #f53f08;
 }

@@ -21,15 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers {
-        logout as performLogout;
-    }
-
-    public function logout(Request $request)
-{
-    $this->performLogout($request);
-    return redirect()->route('login');
-}
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -48,16 +40,8 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     public function redirectTo(){
-
-        $user = DB::table('users')->where('id', Auth::user()->id)->first();
-        $status = $user->status;
-        if ($status == 'successful') {
-            $this->redirectTo = \route('client.landing-page');
-            return $this->redirectTo;
-        }
-
-        $this->redirectTo = \route('plan');
+        
+        $this->redirectTo = \route('client.landing-page');
         return $this->redirectTo;
-     }
-         
+     } 
 }
