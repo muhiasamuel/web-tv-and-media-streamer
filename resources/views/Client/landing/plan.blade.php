@@ -10,6 +10,12 @@
                 <div class="col-md-12">
                     <!--PRICE HEADING START-->
                     <div class="price-heading clearfix">
+                    @if(Session::has('alert'))
+                    <div class="alert alert-success alert-dissmissable fade-out">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a> 
+                        {{ Session('alert')}}
+                    </div> 
+                    @endif
                         
                         <h1>Choose Your Subscription Plan</h1>
                         <h5> No commitments. You can cancel your subscription any time.</h5>

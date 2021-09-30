@@ -132,11 +132,27 @@ class FlutterwaveController extends Controller
         
        
         elseif ($status ==  'cancelled'){
+            
             return redirect()->route('plan');
             //Put desired action/code after transaction has been cancelled here
         }
         else{
-            //Put desired action/code after transaction has failed here
+            $transactionID = Flutterwave::getTransactionIDFromCallback();
+            $data = Flutterwave::verifyTransaction($transactionID);
+             //Put desired action/code after transaction has failed here
+            DB::table('users')
+            ->where('email', $data['data']['customer']['email'])
+            ->update(['status' => 'expired']);
+            echo('User subscription succesifully updated ');  
+            
+            
+             //insert user subscription data into users subscription
+                DB::table('subscriptions')
+                ->where('user_email', $data['data']['customer']['email'])
+                ->update(['payment_status' =>'failed' ]);
+                echo('User subscription succesifully updated ');
+                return redirect()->route('plan');
+           
         }
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
@@ -148,5 +164,92 @@ class FlutterwaveController extends Controller
         // You can also redirect to your success page from here
         $this->redirectTo = \route('client.landing-page');
         return $this->redirectTo;
+    }
+        /**
+        * Receives Flutterwave webhook
+        * @return void
+        */
+    public function webhook(Request $request)
+    {
+        //This verifies the webhook is sent from Flutterwave
+        $verified = Flutterwave::verifyWebhook();
+    
+        // if it is a charge event, verify and confirm it is a successful transaction
+        if ($verified && $request->event == 'charge.completed' && $request->data->status == 'successful') {
+            $data = Flutterwave::verifyPayment($request->data['id']);
+            
+            if ($data['status'] === 'success') {
+            // process for successful charge
+            //update database
+                     $rave_id= $data['data']['id'];
+                    $rave_code=$data['data']['flw_ref'];
+                    $status=$data['data']['status'];
+                    $card_brand=$data['data']['card']['type']; 
+                    $card_last_four=$data['data']['card']['last_4digits']
+                    ;
+                    //getting Auth user subscription id 
+                    $plans = Flutterwave::subscriptions()->getall();
+                    $users = collect($plans['data']);
+                
+                    $users=collect($users);
+                    $person = $users->filter(function ($value, $key) {
+                        return collect($value)->contains('customer_email', Auth::user()->email);
+                    });
+                    $person=$person->filter()->all();
+                    foreach($person as $persons){
+                        $userSubscription_id=$persons['id'];
+                        $userSubscription_amount=$persons['amount'];
+                        $userrave_id=$persons['customer']['id'];
+                        $userRave_Email=$persons['customer']['customer_email'];
+                        $userSubscription_plan=$persons['plan'];
+                        $userSubscription_status=$persons['status'];
+
+                    }
+                    //insert payment data into users table
+                    DB::table('users')
+                        ->where('email', $data['data']['customer']['email'])
+                        ->update(['rave_id' => $rave_id, 'rave_code' => $rave_code,'status' => $userSubscription_status,'subscription_id' => $userSubscription_id, 'card_brand' => $card_brand, 'card_last_four' => $card_last_four ]);
+                        echo('User subscription succesifully updated ');  
+                        
+                        
+                        //insert user subscription data into users subscription
+                    DB::table('subscriptions')
+                    ->where('user_email', $data['data']['customer']['email'])
+                    ->update(['rave_id' => $rave_id, 'rave_code' => $rave_code,'user_id' => $userrave_id,'subscription_id' => $userSubscription_id, 'rave_plan_id' => $userSubscription_plan, 'user_email' => $userRave_Email,'payment_status' => $status ]);
+                    echo('User subscription succesifully updated ');
+                    return redirect()->route('client.landing-page', ['parameterKey' => 'value']);
+    
+            }else{
+                $data = Flutterwave::verifyPayment($request->data['id']);
+                DB::table('users')
+                ->where('email', $data['data']['customer']['email'])
+                ->update(['status' => 'expired']);  
+                
+                
+                 //insert user subscription data into users subscription
+                    DB::table('subscriptions')
+                    ->where('user_email', $data['data']['customer']['email'])
+                    ->update(['payment_status' =>'failed' ]);
+                    return redirect()->route('plan');
+
+            }
+    
+        }
+    
+        // if it is a transfer event, verify and confirm it is a successful transfer
+        if ($verified && $request->event == 'transfer.completed') {
+    
+            $transfer = Flutterwave::transfers()->fetch($request->data['id']);
+    
+            if($transfer['data']['status'] === 'SUCCESSFUL') {
+                // update transfer status to successful in your db
+            } else if ($transfer['data']['status'] === 'FAILED') {
+                // update transfer status to failed in your db
+                // revert customer balance back
+            } else if ($transfer['data']['status'] === 'PENDING') {
+                // update transfer status to pending in your db
+            }
+    
+        }
     }
 }

@@ -35,6 +35,7 @@ body {
 	font-family: 'Poppins', sans-serif;
     font-weight: 400;
     position: relative;
+    
 }
 
 /*----------------------------
@@ -159,6 +160,9 @@ textarea:focus {
 .mt-20 {
     margin-top: 20px;
 }
+.mt-10 {
+    margin-top: 10px;
+}
 .pt-60 {
 	padding-top: 60px;
 }
@@ -202,15 +206,15 @@ textarea:focus {
     margin-top: 35px;
 }
 .owl-dot {
-    width: 20px;
+    width: 12px;
     height: 6px;
-	border-radius: 5px;
-    background: #595a5f;
+	border-radius: 25%;
+    background: #f1f2f3;
     display: inline-block;
     margin: 0 5px;
 }
 .owl-dot.active {
-    width: 28px;
+    width: 18px;
     background: #eb315a;
 }
 .display-table {
@@ -272,17 +276,20 @@ input::-webkit-input-placeholder {
 -------- HEADER AREA CSS START --------
 ---------------------------------------*/
 .header {
-	padding: 18px 0;
-	top: 4;
-	left: 0;
-	width: 100%;
+  width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    padding: 20px;
+    transition: transform 0.5s;
 }
 .header-area {
     display: grid;
     grid-template-rows: repeat(2,1fr);
     grid-template-columns: repeat(12,1fr);
     align-items: center;
-    grid-gap: 20px;
+    grid-gap: 5px;
 }
 .logo {
     grid-column: span 2;
@@ -410,18 +417,9 @@ option {
 }
 .hero-area-slide {
     background: #13151f;
-    margin: 150px 15px 10px;
-    padding-top: 32px;
+    margin: 170px 15px 50px;
+    padding-top: 52px;
     box-shadow: 0 0 20px #000000;
-}
-.hero-area-content{
-    box-sizing: border-box;
-    width: 400px;
-     height: 650px;
-     background: #13151f;
-     border: none;
-
-
 }
 .hero-area-content #video i:hover {
     color: #3af7ed;
@@ -429,7 +427,7 @@ option {
 }
 .hero-area-content #video{
     position: absolute;
-    z-index: 299;
+    z-index: 1200;
     width: 60px;
     height: 60px;
     line-height: 60px;
@@ -450,7 +448,7 @@ option {
 
 .hero-area-content > img {
     position: relative;
-    margin-top: -120px;
+    margin-top: -100px;
 }
 .hero-area-slider {
 	margin: auto;
@@ -460,13 +458,13 @@ option {
     position: absolute;
     z-index: 5;
     box-sizing: border-box;
-    background-color: rgb(17, 17, 19);
+    background-color: rgb(9, 9, 17);
     display: none;
-    width: 200px;
-    left: 0;
+    width: 270px;
+    left: 1rem;
     right: 0;
     top: 5rem;
-   margin-left: 50px;
+   margin-left: 10px;
 
    
 }
@@ -474,7 +472,7 @@ option {
     list-style: none;
 }
 .search-result li a{
-    padding: 10px 12px 5px;
+    padding: 15px ;
     display: block;
     color: rgb(255, 255, 255);
 }
@@ -574,7 +572,7 @@ option {
 #social-icons {
     padding:0;
     position: fixed;
-    top: 70%;
+    top: 80%;
     transform: translateY(-50%);
     right:0;
     z-index: 199;
@@ -646,17 +644,34 @@ hr {
 .portfolio-menu li.active::before,.portfolio-menu li:hover::before {
     background: #eb315a;
 }
-.portfolio-content h2 {
-    margin-top: 20px;
+.portfolio-content{
+    margin-top: -4px;
+    margin-bottom: 15px;
+}
+.portfolio-content p{
+    margin-top: -9px;
 }
 
 .single-portfolio {
     margin-top: 50px;
+   height:280px;
 }
-.video-area,
-.single-portfolio-img {
-	overflow: hidden;
-	position: relative;
+
+.single-portfolio p{
+    background: rgba(0, 0, 0, 0.8);
+    padding: 3px 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: rgb(240, 44, 10);
+}
+.favorite{
+    background: rgba(0, 0, 0, 0.8);
+    padding: 3px 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: rgb(240, 44, 10); 
 }
 .single-portfolio-img:hover .popup-youtube i {
 	opacity: 1;
@@ -686,15 +701,36 @@ hr {
 }
 .single-portfolio-img{
     box-sizing: border-box;
-    width: 250px;
-    height: 150px;
+    overflow: hidden;
+    position: relative;
+    width: 280px;
+    height: 180px;
     background: rgb(26, 25, 25);
     border: 1px solid rgb(8, 8, 8);
 
 }
+.single-advert:hover img {
+    transition: 0.9s;
+	transform: scale(1.2);
+}
+.single-portfolio-advert{
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    width: 330px;
+    height: 180px;
+    background: rgb(26, 25, 25);
+    border: 1px solid rgb(8, 8, 8);
+
+}
+
 .single-portfolio-img img{
-    width: 250px;
-    height: 150px;
+    width: 300px;
+    height: 180px;
+}
+.single-portfolio-advert img{
+    width: 300px;
+    height: 180px;
 }
 
 
@@ -706,7 +742,10 @@ hr {
 
 
 #modal-btn{
-    margin:1rem 3rem;
+    font-size: 14px;
+    margin-left:1.5rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
 }
 .modal-open { overflow-y: auto; }
 #modalaboutus{
@@ -718,21 +757,24 @@ hr {
     color: #000;
     font: 3em sans-serif;
 }
-
-
 #adverts{
-    box-sizing: border-box;
-    background: rgb(26, 25, 25);
-  
-    width: 250px;
-    height: 250px;
+    margin-top: 39px;
+}
+
+.adverts{
+    margin: 55px 0 0 0;
+    width: 280px;
+    height: 155px;
+}
+#pagination{
+    margin-top: 49px;
 }
 #advert{
-    margin: 55px 0 0 0;
+  
 }
-#adverts img{
-    width: 250px;
-    height: 250px;
+.adverts img:hover{
+    transform: scale(1.1);
+    transition: 0.9s;
 }
 /*----------------------------------
 --------- portfolio AREA CSS END --------
@@ -812,78 +854,30 @@ hr {
 /*----------------------------------
 -------- news AREA CSS START -------
 ------------------------------------*/
-.single-news {
-	position: relative;
-	color: #fff;
-}
-.news-content {
-    position: absolute;
-    left: 60px;
-    bottom: 35px;
-    right: 420px;
-}
-.news-bg-1 {
-	background: url('../img/news/news1.jpg') no-repeat center / cover;
-    height: 350px;
-}
-.news-bg-2 {
-	background: url('../img/news/news2.jpg') no-repeat center / cover;
-    height: 350px;
-}
-.news-bg-3 {
-	background: url('../img/news/news3.jpg') no-repeat center / cover;
-    height: 350px;
-}
+
+
 .news-date {
 	position: absolute;
-	left: 60px;
+    border-bottom-right-radius: 25%;
+	left:0;
 	top: 0;
 	background: #f09819; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #f09819 0%, #ef8128 34%, #ec474c 64%, #eb315a 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(-45deg, #f09819 0%,#ef8128 34%,#ec474c 64%,#eb315a 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(135deg, #f09819 0%,#ef8128 34%,#ec474c 64%,#eb315a 100%);
-	padding: 20px;
+	padding: 10px;
 }
-.news-date h2 span {
-	font-size: 16px;
-}
-.news-content > h2 {
-    margin-bottom: 15px;
+.news-date p {
+	font-size: 12px;
+    font-family: initial;
+    font-style: normal;
 }
 
-.news-slider .single-news{
-    max-width: 950px;
-    margin: 50px auto 0;
-}
-.single-news a {
-    position: absolute;
-    right: 40px;
-    bottom: 40px;
-}
 .news-slide-area {
     position: relative;
     overflow: hidden;
 }
-.news-next {
-    position: absolute;
-    width: 950px;
-    bottom: 0;
-    left: 0;
-    margin-left: -770px;
-    z-index: 99;
-    cursor: pointer;
-}
 
-.news-prev {
-    position: absolute;
-    width: 950px;
-    bottom: 0;
-    right: 0;
-    margin-right: -770px;
-    z-index: 99;
-    cursor: pointer;
-    height: 350px;
-}
 /*----------------------------------
 --------- news AREA CSS END --------
 -----------------------------------*/
@@ -943,6 +937,15 @@ hr {
 /*----------------------------------
 ---- Movie details PAGE CSS START ----
 ------------------------------------*/
+.videodetail-area{
+    padding:230px 0 200px;
+    background-repeat: no-repeat;
+    height:500px;
+    background-size: 100%, cover;
+    background-position: center, center;
+    width: 100%;
+    position: relative; 
+}
 .breadcrumb-area { 
     
 	padding:230px 0 200px;
@@ -962,33 +965,42 @@ hr {
 }
 .cat-description{
     position: absolute;
-    bottom: 1rem;
+    bottom: 2rem;
     margin-right: 2rem;
-    max-width: 400px;
+    max-width: 450px;
     left: 2rem;
 }
 .views{
     position: absolute;
-    bottom: 1rem;
+    bottom:0;
     right: 4rem;
 }
 .share-this{
-    float: right;
-    bottom: 1rem;
-    margin:1rem 3rem;
+    position: absolute;
+    bottom:0rem;
+    right: 1.5rem;
 }
 .share-this i{
    padding: 6px;
-    font-size: 2rem;
-    border-right: 3px solid rgb(9, 211, 127);
+    font-size: 20px;
+}
+.icofont-share{
+    margin-top: 7px;
+    color: #ffffff;
+}
+.icofont-share:hover{
+    cursor: pointer; 
+    color: rgb(10, 245, 233);
+
 }
 .social-send{
-    display: inline-flex;
+    display: none;
+    transition: transform 0.7s;
 }
 .views i{
     margin-top: 7px;
     color: #ece3e8;
-    font-size: 25px;
+    font-size: 18px;
 }
 .cat-description p{
     color:rgb(218, 215, 215);
@@ -999,19 +1011,75 @@ hr {
     color:rgb(218, 215, 215);
     text-align: center;
 }
+#overtrue{
+    margin-left:10px;
+    margin-right: 10px;
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.panel{
+    position: relative;
+    float: right;
+    
+}
+.panel p{
+    font-size:14px;
+    font-family: initial;
+    font-style: italic;
+    font-weight: normal;
+    color: #ffffff;
+} 
+.panel i{
+    margin-right: 2em;
+    font-size:18px;
+    font-weight: bold;
+    background: #023030c1;
+    padding: 3px 16px;
+    border-radius: 25%; 
+}
+.fav{
+    margin-left: 5px;
+    float: left;
+}
+.fav i{
+    color: #ff7300;
+    font-weight: bolder;
+    font-size: 14px;
+}
+.fav i:hover{
+    color: #ff2f00;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: 0.6s; 
+}
+.panel i:hover{
+    font-size:20px;
+    transition: 0.6s; 
+    color: rgb(255, 255, 255);
+    background: #71a5cf;
+    cursor: pointer;
+}
 
 .breadcrumb-area-content {
+    top: 195px;
 	text-align: center;
 }
 .breadcrumb-area-container{
     position: absolute;
-
 }
+.like-video{
+    color: #f70475 !important;
+  }
 .breadcrumb-area-content h1 {
 	font-size: 60px;
     
 }
 .transformers-box {
+    margin-top: 60px;
     padding: 35px;
     box-shadow: 0 0 20px #000000;
     position: relative;
@@ -1044,14 +1112,15 @@ hr {
 }
 
 .transformers-left {
-    color: #eb315a;
-    min-width: 100px;
+    color: #f12906;
+    min-width: 250px;
 }
 
 .transformers-content ul li {
     display: flex;
+    font-size: 18px;
     margin-top: 12px;
-    font-weight: 300;
+    font-weight: bolder;
 }
 
 .transformers-right .theme-btn {
@@ -1197,7 +1266,7 @@ hr {
 }
 
 .buy-ticket-area {
-    margin-top: 140px;
+    margin-top: 200px;
     background: #f5f5f5;
 	box-shadow: 0 0 5px #222;
     position: relative;
@@ -1512,7 +1581,7 @@ hr {
   overflow: visible;
   width: 100%;
   height: 100%;
-  background: #fff url("../img/loader.gif") no-repeat center center;
+  background: rgb(1, 18, 36) url("../img/loader.gif") no-repeat center center;
 }
 /*--------------------------------------
 --------- Pre Loader Style END ---------

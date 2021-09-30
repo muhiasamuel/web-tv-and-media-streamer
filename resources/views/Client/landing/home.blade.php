@@ -1,12 +1,13 @@
 @extends('Client.landing.index')
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<!-- hero area start -->
 		<section class="hero-area" style="background-image: url('{{asset('settings/bimg/'.$settings->backgroundimg)}}')" id="home">
 			<div class="container">
 				<div class="hero-area-slider">
 				@foreach($videos as $key=>$video)
-					@if($key == 1)
+					@if($key == 0)
 					<div class="row hero-area-slide">
 						<div class="col-lg-6 col-md-5">
 							<div class="hero-area-content">
@@ -20,14 +21,13 @@
 										@endphp							
 										<img class="lazy" data-src="https://i.ytimg.com/vi/{{$value}}/sddefault.jpg" />										
 										@endif
-							
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-7">
 							<div class="hero-area-content pr-50">
-								<h2>Video Title: {{$video->title}}</h2>
-								<hr>
-								<p>{{$video->description}}</p>
+								<h2>{{$video->title}}</h2>
+								
+								<p>{!!($video->description)!!}</p>
 							
 								<div class="slide-trailor">
 									<h3> Watch This Video Here</h3>
@@ -53,7 +53,7 @@
 					@endif
 					@endforeach
 					@foreach($videos as $key=>$video)
-					@if($key == 2)
+					@if($key == 7)
 					<div class="row hero-area-slide">
 						<div class="col-lg-6 col-md-5">
 							<div class="hero-area-content">
@@ -71,9 +71,9 @@
 						</div>
 						<div class="col-lg-6 col-md-7">
 							<div class="hero-area-content pr-50">
-								<h2>Video Title: {{$video->title}}</h2>
-								<hr>
-								<p>{{$video->description}}</p>
+								<h2> {{$video->title}}</h2>
+								
+								<p>{!!($video->description)!!}</p>
 							
 								<div class="slide-trailor">
 									<h3> Watch This Video Here</h3>
@@ -99,7 +99,7 @@
 					@endif
 					@endforeach
 					@foreach($videos as $key=>$video)
-					@if($key == 3  )
+					@if($key >5 && $key < 7  )
 					<div class="row hero-area-slide">
 						<div class="col-lg-6 col-md-5">
 							<div class="hero-area-content">
@@ -113,14 +113,13 @@
 										@endphp							
 										<img class="lazy" data-src="https://i.ytimg.com/vi/{{$value}}/sddefault.jpg" />										
 										@endif
-							
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-7">
 							<div class="hero-area-content pr-50">
-								<h2>Video Title: {{$video->title}}</h2>
-								<hr>
-								<p>{{$video->description}}</p>
+								<h2> {{$video->title}}</h2>
+								
+								<p>{!!($video->description)!!}</p>
 								<div class="slide-trailor">
 									<h3> Watch The Video Here </h3>
 									<a class="theme-btn theme-btn1" href="{{url('videodetail')}}/{{$video->slug}}"><i class="icofont icofont-play"></i> Video</a>
@@ -145,14 +144,23 @@
 				</div>
 				@endif
 				@endforeach
-				@foreach($videos as $key=>$video)
-				@if($key == 2  )
+			
 				<div class="hero-area-thumb">
+				    	@foreach($videos as $key=>$video)
+				        @if($key == 7  )
 					<div class="thumb-prev">
 						<div class="row hero-area-slide">
 							<div class="col-lg-6">
 								<div class="hero-area-content">
-								<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}"  alt="portfolio" />
+										@if($video->videolink == '' )
+										<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}" style="width: 250px; height: 150px;" alt="{{$video->title}}" />
+										@else
+										@php
+										$value = explode('=',$video->videolink);
+               							$value = $value[1];
+										@endphp							
+										<img class="lazy" data-src="https://i.ytimg.com/vi/{{$value}}/sddefault.jpg" />										
+										@endif
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-7">
@@ -169,7 +177,7 @@
 									</div>
 									<h4>180k voters</h4>
 								</div>
-								<p>{{$video->description}}</p>
+							<p>{!!($video->description)!!}</p>
 								<div class="slide-trailor">
 									<h3> Watch The Video Here </h3>
 									<a class="theme-btn theme-btn2" href="{{url('videodetail')}}/{{$video->slug}}"><i class="icofont icofont-play"></i> Video</a>
@@ -181,12 +189,20 @@
 					@endif
 				@endforeach
 				@foreach($videos as $key=>$video)
-				@if($key == 3  )
+				@if($key >5 && $key < 7  )
 					<div class="thumb-next">
 						<div class="row hero-area-slide">
 							<div class="col-lg-6">
 								<div class="hero-area-content">
-								<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}"  alt="portfolio" />
+											@if($video->videolink == '' )
+										<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}" style="width: 250px; height: 150px;" alt="{{$video->title}}" />
+										@else
+										@php
+										$value = explode('=',$video->videolink);
+               							$value = $value[1];
+										@endphp							
+										<img class="lazy" data-src="https://i.ytimg.com/vi/{{$value}}/sddefault.jpg" />										
+										@endif
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -202,7 +218,7 @@
 									</div>
 									<h4>180k voters</h4>
 								</div>
-								<p>{{$video->description}}</p>
+							<p>{!!($video->description)!!}</p>
 								<div class="slide-trailor">
 									<h3> Watch The Video Here </h3>
 									<a class="theme-btn theme-btn2" href="{{url('videodetail')}}/{{$video->slug}}"><i class="icofont icofont-play"></i> Video</a>
@@ -246,8 +262,8 @@
 							<div class="col-md-3 col-sm-4 top">
 								<div class="single-portfolio">
 									<div class="single-portfolio-img">
-										@if($video->videolink == '' )
-										<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}" style="width: 250px; height: 150px;" alt="{{$video->title}}" />
+									@if($video->videolink == '' )
+										<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}" style="width: 280px; height: 180px;" alt="{{$video->title}}" />
 										@else
 										@php
 										$value = explode('=',$video->videolink);
@@ -262,24 +278,69 @@
 										@endif
 										<i class="icofont icofont-ui-play"></i>
 									    </a>
-										
+										<p>{{$video->views}} <i class="icofont icofont-eye"></i> views</p>
+																				
 										</a>
+										<div class="favorite">
+										<div class="fav " id="{{ $video->id }}">
+												@if(auth()->user()->hasFavorited($video))
+												<i class="icofont icofont-minus" > From Watchlist </i>
+												@else
+												<i class="icofont icofont-plus" >To Watchlist </i>
+                                                @endif
+												
+											</div>
+										</div>
 									
 									</div>
 									<div class="portfolio-content">
 										<div class="review">
 										<h6>{{$video->title}}</h6>
-										<p>{{$video->views}} <i class="icofont icofont-eye"></i> views</p>
+										
+										<div class="row" id = "overtrue">
 											
+											<div  class="panel " id="{{ $video->id }}">
+											<span>
+											<div id="like{{$video->id}}-bs3">
+													 @if(auth()->user()->hasLiked($video))
+													 @if($video->likers()->get()->count() > 1)
+													 <p>You and {{ $video->likers()->get()->count() }} others liked</p>
+													 @else
+													 <p>You liked this video</p>
+													 @endif
+													 @else
+													 @if( $video->likers()->get()->count() == 1)
+													 <p>Liked by {{ $video->likers()->get()->count() }} person</p>
+													 @else
+													 <p>Liked by {{ $video->likers()->get()->count() }} People</p>
+													 @endif
+													 @endif
+													 </div>
+													 @if(auth()->user()->hasLiked($video))
+												 <i id="liked{{$video->id}}"style="color: #f70475" class="icofont icofont-thumbs-up"></i>
+													@else
+												<i id="liked{{$video->id}}" style="color:white" class="icofont icofont-thumbs-down"></i>
+                                                @endif
+                                                
+												@if(auth()->user()->hasFavorited($video))
+												<i class="icofont icofont-love" style="color:#ff0000"> </i>
+												@else
+												<i class=" icofont icofont-love" style="color:#fff"></i>
+                                                @endif
+											</div>
+											</span>
+											</div>
 										</div>
 									</div>
+									
 								</div>
 							</div>
 							@endforeach	
 							
+							
 						</div>
-						<div class="d-flex justify-content-center" style="">								
-								{!! $videos->links() !!}
+						<div  class="d-flex justify-content-center mt-10" style="">								
+							<p>{!! $videos->links() !!}</p>	
 							</div>
 					</div>
 					
@@ -287,10 +348,9 @@
 			</div>
 		</section><!-- portfolio section end -->
 		<!-- video section start -->
-		<section class="video ptb-90">
+		<section class="video ptb-40">
 			<div class="container">
 					<div class="col-md-12">
-						<hr />
 					</div>
 				</div>	
 			</div>

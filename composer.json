@@ -10,10 +10,11 @@
     "require": {
         "php": "^7.2.5",
         "cloudinary-labs/cloudinary-laravel": "^1.0",
-        "digikraaft/laravel-paystack-subscription": "^1.2",
         "fideloper/proxy": "^4.2",
+        "overtrue/laravel-like":"^3.0",
+        "overtrue/laravel-favorite":"^3.0",        
         "fruitcake/laravel-cors": "^1.0",
-       
+       "overtrue/laravel-follow":"^2.9",
         "kingflamez/laravelrave": "^4.2",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
@@ -32,7 +33,8 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform-check": false
     },
     "extra": {
         "laravel": {

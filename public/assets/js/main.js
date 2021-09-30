@@ -23,7 +23,7 @@
 		$('html, body').animate({scrollTop : 0},2000);
 		return false;
 	});
-	$('.menu-area ul > li > .theme-btn').on('click', function () {
+	$('.menu-area ul > li > .theme').on('click', function () {
 		$('.buy-ticket').show();
 		return false;
 	});
@@ -47,13 +47,13 @@
 	heroSlider.owlCarousel({
 		loop:true,
 		dots: true,
-		autoplay: false,
-		autoplayTimeout:4000,
+		autoplay: true,
+		autoplayTimeout:2000,
 		nav: false,
 		items: 1,
 		responsive:{
 			992:{
-				dots: false,
+				dots: true,
 			}
 		}
 	});
@@ -76,13 +76,26 @@
 	newsSlider.owlCarousel({
 		loop:true,
 		dots: true,
-		autoplay: false,
-		autoplayTimeout:4000,
+		autoplay: true,
+		autoplayTimeout:1500,
 		nav: false,
-		items: 1,
 		responsive:{
+			0:{
+				items: 1,
+				margin: 0
+			},
+			576:{
+				items: 2,
+				margin: 10
+			},
+			768:{
+				items: 3,
+				margin: 15
+			},
 			992:{
-				dots: false,
+				items: 4,
+				margin: 18,
+				dots:false
 			}
 		}
 	});
@@ -105,8 +118,8 @@
 	videoSlider.owlCarousel({
 		loop:true,
 		dots: true,
-		autoplay: false,
-		autoplayTimeout:4000,
+		autoplay: true,
+		autoplayTimeout:2000,
 		nav: false,
 		responsive:{
 			0:{
@@ -124,6 +137,33 @@
 			992:{
 				items: 4,
 				margin: 30
+			}
+		}
+	});
+	var relatedSlider = $('.related-slider');
+	relatedSlider.owlCarousel({
+		loop:true,
+		dots: false,
+		autoplay: true,
+		autoplayTimeout:4500,
+		nav: false,
+		responsive:{
+			0:{
+				items: 1,
+				margin: 0,
+				autoplayTimeout:2000,
+			},
+			576:{
+				items: 2,
+				margin: 10
+			},
+			768:{
+				items: 3,
+				margin: 15
+			},
+			992:{
+				items: 4,
+				margin: 18,
 			}
 		}
 	});
@@ -145,6 +185,130 @@
 			}
 		}
 	});
+    
+	var navpos = $('.header').offset();
+	$(window).bind('scroll', function() {
+	  if ($(window).scrollTop() > 11 ) {
+		$('.header').css({"background-color": "#13151f" ,"position": "sticky","z-index": 200,"transform": "translateY(-50%)", });		
+	  } else {
+		$('.header').css({"background-color": "#13151f","transform": "translateY(-1%)","position": "relative"});
+	
+	  }
+	});
+
+	$('.toggle-share').click(function(){
+		$('.social-send').toggle();
+	})
+
+        $('i.icofont-thumbs-up').click(function(){   
+			
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+
+            var id = $(this).parents(".panel").attr('id');
+
+            $.ajax({
+               type:'POST',
+               url:'/like',
+               data:{id:id},
+               success:function(data){
+				$('#liked'+id).html('<p style="font-size:11px; left:2px; position:absolute;top:14px;color:black; " class="alert alert-danger">unLiked</p>');
+                  
+               }
+            });
+
+			$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+				event.preventDefault();
+				$(this).ekkoLightbox();
+			}); 
+                                              
+    });
+	$('i.icofont-thumbs-down').click(function(){   
+			
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var id = $(this).parents(".panel").attr('id');
+
+		$.ajax({
+		   type:'POST',
+		   url:'/like',
+		   data:{id:id},
+		   success:function(data){
+			$('#liked'+id).html('<p style="font-size:11px; position:absolute;top:14px;color:black; " class="alert alert-success">Liked</p>');
+			  
+		   }
+		});
+
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+			event.preventDefault();
+			$(this).ekkoLightbox();
+		}); 
+										  
+});
+
+	
+	
+	$('.icofont-minus').click(function(){
+
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var id = $(this).parents(".fav").attr('id');
+		$.ajax({
+		 type:'POST',
+		   url:'/favourite',
+		   data:{id:id},
+		   success:function(){
+					$('#'+id).html('<p style="font-size:11px; left:2px; position:relative " class="alert alert-danger">Removed from watchlist</p>');
+				
+			}
+		});
+
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+			event.preventDefault();
+			$(this).ekkoLightbox();
+		});
+	});
+
+
+
+	$(' .icofont-plus').click(function(){
+
+
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		var id = $(this).parents(".fav").attr('id');
+		$.ajax({
+		 type:'POST',
+		   url:'/favourite',
+		   data:{id:id},
+		   success:function(){
+					$('#'+id).html('<p style="font-size:11px; left:2px; position:relative" class="alert alert-success">Added To watchlist</p>');
+				
+			}
+		});
+
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+			event.preventDefault();
+			$(this).ekkoLightbox();
+		});
+	});
+
 	
 	/*----------------------------
     START - Isotope

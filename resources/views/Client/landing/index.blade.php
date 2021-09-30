@@ -3,13 +3,11 @@
 	
 <head>
 		<meta charset="UTF-8">
-		  <!-- CSRF Token -->
-		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title>STREETCEOSTV-LIVETV</title>
 		<!-- Favicon Icon -->
-		<link rel="icon" type="image/png" href="assets/img/FAVICON LOGO.png" />
+		<link rel="icon" type="image/png" href="{{ asset('assets/img/FAVICON LOGO.png') }}"/>
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -21,7 +19,7 @@
 		<link href="{{ asset('assets/css/icofont.css') }}" rel="stylesheet" media="all" />
 		<!-- Owl carousel CSS -->
 		<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css" integrity="sha512-RWhcC19d8A3vE7kpXq6Ze4GcPfGe3DQWuenhXAbcGiZOaqGojLtWwit1eeM9jLGHFv8hnwpX3blJKGjTsf2HxQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />-->
-		<link href="{{ asset('assets/css/owl.carousel.css') }}" rel="stylesheet"h>
+		<link href="{{ asset('assets/css/owl.carousel.css') }}" rel="stylesheet">
 		<!-- Popup CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.0/magnific-popup.css" integrity="sha512-4a1cMhe/aUH16AEYAveWIJFFyebDjy5LQXr/J/08dc0btKQynlrwcmLrij0Hje8EWF6ToHCEAllhvGYaZqm+OA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<!--<link href="{{ asset('assets/css/magnific-popup.css') }}" rel="stylesheet">-->
@@ -45,19 +43,16 @@
 						<a href="#"><img class="lazy" data-src="{{asset('settings/'.$settings->image)}}"style="width: 100%;" alt="logo" /></a>
 					</div>
 					<div class="header-right">
-						<form action="#">
-							<input type="search" id="search_content" />
-							
-						</form>
-                     
+						<form >
+							@csrf
+							<input type="search" id="search_content" placeholder="Search Videos" />
+						    <button><i class="icofont icofont-search"></i></button>							
+						</form>                     
 						<ul>
-						@can('manageContent')
-                          
-                                <a href="{{ url('/home') }}" class="theme-btn" style="margin-left:2rem">Admin</a>
-                          
+						@can('manageContent')                          
+                          	<a href="{{ url('/home') }}" class="theme-btn" style="margin-left:2rem">Admin</a>                          
 						@endcan
-						</ul>
-						
+						</ul>					
 					
 					</div>
 					<div class="menu-area">
@@ -66,6 +61,7 @@
                             <ul id="primary-menu">
                             
                                 <li><a  href="{{url('/')}}" class="text-uppercase">HOME</a></li>
+								<li class="theme-btn theme-btn1" ><a href="{{url('watchlist')}}">Our TV</a></li>
                                 @foreach($categories as $category)
                                 <li><a href="{{url('categories')}}/{{$category->slug}}" class="text-uppercase">{{$category->title}}</a></li>
                                 @endforeach
@@ -81,8 +77,8 @@
 								<li><a href="#"  class="text-uppercase">{{ Auth::user()->name }} <i class="icofont icofont-simple-down"></i></a>
 									<ul  class="text-uppercase" id="dropdown">
 									
-										<li><a href="#">My Account</a></li>
-										<li><a href="#">Watchlist</a></li>
+										<li><a class="theme" href="#"> My Account</a></li>
+										<li><a href="{{url('watchlist')}}">Watchlist</a></li>
 										<li><a href="#">Collections</a></li>
 										<li><a href="{{url('viewMySubscription')}}">My Subscription</a></li>
 										<li>
@@ -104,55 +100,205 @@
 					</div>
 				</div>
 			</div>
+			
 			<div id="search_output"></div>
 		</header>
-		@if(Session::has('alert'))
+		<div class="buy-ticket">
+			<div class="container">
+				<div class="buy-ticket-area">
+					<a href="#"><i class="icofont icofont-close"></i></a>
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="buy-ticket-box">
+								<h4>My Account</h4>
+								<h5>{{Auth::user()->name }}</h5>
+								<h6>My profile</h6>
+								
+								<div class="ticket-box-table">
+									<table class="ticket-table-seat">
+									<img type="image/png" src="{{ asset('assets/img/PngItem_349175.png') }}" class="mt-20" style="width:40%"alt="My Subscription" />
+										<tr>
+											<td>1</td>
+											<td>2</td>
+											<td>3</td>
+											<td>4</td>
+											<td>4</td>
+											<td>6</td>
+											<td>7</td>
+										</tr>
+										<tr>
+											<td class="active">1</td>
+											<td class="active">1</td>
+											<td class="active">1</td>
+											<td class="active">1</td>
+											<td class="active">1</td>
+											<td class="active">1</td>
+											<td class="active">1</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+										</tr>
+									</table>
+								</div>
+								<div class="ticket-box-available">
+									<input type="checkbox" checked />
+									<span>Active</span>
+								</div>
+								<a href="#" class="theme-btn">cancel</a>
+								<a href="#" class="theme-btn">ok</a>
+							</div>
+						</div>
+						<div class="col-lg-3 offset-lg-1">
+							<div class="buy-ticket-box mtr-30">
+								<h4>Your Information</h4>
+								<ul>
+									<li>
+										<p>Name</p>
+										<span>{{Auth::user()->name }}</span>
+									</li>
+									<li>
+										<p>Email</p>
+										<span>{{Auth::user()->email }}</span>
+									</li>
+									<li>
+										<p>Account Status</p>
+										<span>Active</span>
+									</li>
+									<li>
+										<p>Subscription Status</p>
+										<span>{{Auth::user()->status }}</span>
+									</li>
+									<li>
+										<p>Price</p>
+										<span>89$</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+				@if(Session::has('alert'))
                     <div class="alert alert-success alert-dissmissable fade-out">
                         <a href="#" class="close" data-dismiss="alert">&times;</a> 
                         {{ Session('alert')}}
                     </div> 
-                @endif 			
+                @endif 
+				@if(Session::has('alert2'))
+                    <div class="alert alert-success alert-dissmissable fade-out">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a> 
+                        {{ Session('alert2')}}
+                    </div> 
+                @endif	
+				@if(Session::has('message'))
+							<div class="alert alert-success alert-dissmissable fade-in">
+								<a href="#" class="close" data-dismiss="alert">&times;</a> 
+								{{ Session('message')}}
+							</div> 
+							@endif 		
 		
        @yield('content')
 		<!-- footer section start -->
-		
-		<div class="container">
-			<section>
-			<h3>Adverts</h3>
-			<hr>
-				<div class="row col-lg-12" id= advert >
-				@if(!empty($ads))
-				@foreach($ads as $ad)
-					<div class="col-lg-3  col-sm-6"  >
-						<a href="{{$ad->url}}" id="adverts"><img class="lazy" data-src="{{asset('adverts/'.$ad->image)}}" alt="{{$ad->title}}" /></a>
+		<section class="news">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+					    <div class="section-title mt-30 pb-20">
+							<h1><i class="icofont icofont-coffee-cup"></i>Ads</h1>
+						</div>
 					</div>
-				@endforeach	
-				@else
-				<p></p>
-				@endif
 				</div>
-			</section>
-		</div>
+				<hr />
+			</div>
+			<div class="news-slide-area">
+				<div class="news-slider">					
+						@if(!empty($ads))
+						@foreach($ads as $ad)
+						<div class="single-advert">
+							<div class="single-portfolio-advert mt-30">															
+									<a href="{{$ad->url}}"><img class="lazy" data-src="{{asset('adverts/images/'.$ad->image)}}" alt="{{$ad->title}}" />
+									<div class="news-date">
+										<p>{{$ad->title}}</p>
+									</div>
+									</a>	
+							</div>
+						</div>	
+						@endforeach	
+						@else
+						<p></p>
+						@endif
+				</div>
+			</div>
+		</section>
 		<footer class="footer">
 			<div class="container">
 				<div class="row">
 			
                     <div class="col-lg-4 col-sm-6">
 						<div class="widget">
-						<h4><span>Our Adress:</span></h4>
-							<p>{{$settings->adress}}</p>
-							<h6><span>Call us: </span>({{$settings->contact}}</h6>
-							@if(Session::has('message'))
-							<div class="alert alert-success alert-dissmissable fade in">
-								<a href="#" class="close" data-dismiss="alert">&times;</a> 
-								{{ Session('message')}}
-							</div> 
-							@endif 
+						<h4><span>Our Contacts</span></h4>
+								<div id="modal">
+								<a href="#" class="theme-btn theme-btn2" type="button" data-toggle="modal" data-target="#Contactsmodal">
+								Contact us
+								</a>
+							</div>
+						<!-- Modal -->
+						<div class="modal-description">
+							<div class="modal fade" id="Contactsmodal" tabindex="-1" role="dialog" aria-labelledby="ContactsmodalTitle" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" id="modalaboutus">
+								<div class="modal-header">
+									<h4 class="modal-title" style="color:black" id="ContactsmodalTitle">Contact Us </h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+							        <p>{!!($settings->adress)!!}</p>
+							        <br>
+							        {{$settings->contact}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+								</div>
+							</div>
+							</div>	
+						</div>
+							<h5>OR</h5>
+						
 							<div id="modal">
 								<a href="#" class="theme-btn theme-btn1" type="button" data-toggle="modal" data-target="#smsmodal">
 								Send Us a Message
 								</a>
 							</div>
+							
 						<!-- Modal -->
 						<div class="modal-description">
 							<div class="modal fade" id="smsmodal" tabindex="-1" role="dialog" aria-labelledby="smsModalLongTitle" aria-hidden="true">
@@ -270,7 +416,7 @@
 						<div class="text-right">
 							<ul class="social-icons">
 							@foreach($settings->social as $key=>$social)
-								<li><a href="{{$social}}"><i class="icofont icofont-social-{{$icons[$key]}}" ></i></a></li>
+								<li><a target="_blank" href="{{$social}}"><i class="icofont icofont-social-{{$icons[$key]}}" ></i></a></li>
 							@endforeach	
 							</ul>
 						</div>
@@ -285,7 +431,7 @@
 						<div class="col-lg-6 text-center text-lg-left">
 							<div class="copyright-content">
 								<div class="logo">
-									<a href="#"><img class="lazy" data-src="{{asset('settings/'.$settings->image)}}"style="width: 30%;" alt="logo" /></a>
+									<a target="_blank" href="https://streetceostv.com/"><img class="lazy" data-src="{{asset('settings/'.$settings->image)}}"style="width: 30%;" alt="logo" /></a>
 								</div>
 							</div>
 						</div>

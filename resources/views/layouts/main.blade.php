@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="icon" type="image/png" href="assets/img/FAVICON LOGO.png" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/FAVICON LOGO.png') }}" />
 
   <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
@@ -27,7 +27,7 @@
 <div class="navcontent">
           <div class="leftcontent">
             <a href="{{ url('/')}}">
-              <i class="fa fa-back"></i> <span>Go Back</span>
+            <i class="fa fa-arrow" aria-hidden="true"></i><span>Go Back</span>
             </a> 
           </div>
            <div class="pull-right">          
@@ -47,7 +47,7 @@
 		<li><a href="#" class="dashboard"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
     <li class="treeview">
             <a href="{{ url('/')}}">
-              <i class="fa fa-back"></i> <span>Go Back</span>
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> <span>Go Back</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>

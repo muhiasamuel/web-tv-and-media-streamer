@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use Closure;
 use Auth;
+use Session;
 class CheckUserStatus
 {
     /**
@@ -16,10 +17,8 @@ class CheckUserStatus
    
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->status == 'active') {
+        if (auth()->user()->status == 'active' || auth()->user()->status == 'cancelled' ) {
             return $next($request);
-        }elseif(auth()->user()->status == 'cancelled'){
-            return redirect()->route('activate');
         }else{
 
        
@@ -39,7 +38,7 @@ class CheckUserStatus
                $filtred[$key]=$val;
            }
        });*/
-       echo('You Are Not Subscribed To Any Plan. Subscribe Here');
+       session::flash('alert',' You Are Not Subscribed To Any Plan. Subscribe Today And Enjoy Unlimited Shows');
        return redirect()->route('plan');
     }
  

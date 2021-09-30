@@ -22,12 +22,11 @@ class SubscriptionController extends Controller
         DB::table('users')
         ->where('id', Auth::user()->id)
         ->update(['status'=>$userSubscription_status,'subscription_id' => $userSubscription_id,]);
-        session::flash('alert1',' You have successifully Cancelled your subscription. Hope you will visit again. We regret to see you go.');
+        session::flash('alert1',' You have successifully Cancelled your subscription. You will not be able to access the content after your subscription period expires. You can resume your subscription any time. Hope you will visit again. We regret to see you go.');
         return redirect()->route('view.subscription');    
         
     }
-
-
+    
     //resume cancelled subscription
 
     public function resume($id){

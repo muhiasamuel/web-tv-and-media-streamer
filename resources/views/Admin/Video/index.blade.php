@@ -15,7 +15,7 @@
     </div> 
     <div class="col-sm-5 cat-form">
 		@if(Session::has('message'))
-		<div class="alert alert-success alert-dissmissable fade in">
+		<div class="alert alert-success alert-dissmissable fade-in">
 			<a href="#" class="close" data-dismiss="alert">&times;</a> 
 			{{ Session('message')}}
 		</div> 
@@ -31,7 +31,7 @@
         <div class="col-sm-3">
 
         <input type="hidden" name="tbl" value="{{encrypt('videos')}}">
-				<input type="hidden" name="tblid" value="{{encrypt('vid')}}">
+				<input type="hidden" name="tblid" value="{{encrypt('id')}}">
 
 					<select name="bulk-action" class="form-control">
 						<option value="0">Bulk Action</option>
@@ -80,7 +80,7 @@
           @foreach($datas as $video)
             <tr>
               <td>
-                <input type="checkbox" name="select-data[]" value ="{{$video->vid}}"> 
+                <input type="checkbox" name="select-data[]" value ="{{$video->id}}"> 
               <video width="100px" height="80px" controls>
               <source src="{{asset('videos/vids/'.$video->video)}}">{{$video->title}} >
               </video>  
@@ -92,7 +92,7 @@
               <td>{{$video->status}}</td>
               <td>{{$video->created_at}}</td>
               <th>
-								<a href="{{ route('video.edit', $video->vid)}}">
+								<a href="{{ route('video.edit', $video->id)}}">
 									<button type="button" class="btn btn-success float-left">
 										<i class="fa fa-edit">edit</i>
 									</button></a>

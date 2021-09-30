@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use Auth;
+use App\Video;
+use UserStatus;
 use DB;
 use App\Category;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +15,7 @@ class clientController extends Controller
 {
     
     public function __construct(){
-        $this->middleware(['auth','verified']);
+        $this->middleware(['auth','verified',UserStatus::class]);
 
         $categories =Category::where('status','on')->get();
         $settings = DB::table('settings')->first(); 
@@ -42,7 +44,7 @@ class clientController extends Controller
 
     public function index(){
         $data = DB::table('categories')->get();       
-        $videos = DB::table('videos')->orderby('vid','DESC')->paginate(12); 
+        $videos = Video::orderby('id','DESC')->paginate(12); 
         foreach($videos as $video){
             if(!empty($video->videolink)){
                 $url = explode('=',$video->videolink);
@@ -60,7 +62,7 @@ class clientController extends Controller
 
     public function category($slug){
         $category = DB::table('categories')->where('slug', $slug)->first();      
-        $videos = DB::table('videos')->where('category_id','LIKE','%'.$category->id.'%')->orderby('vid','DESC')->paginate(12);
+        $videos = Video::where('category_id','LIKE','%'.$category->id.'%')->orderby('id','DESC')->paginate(12);
         
         return view('Client.landing.category',['category'=>$category, 'videos'=>$videos]);
 
@@ -68,25 +70,25 @@ class clientController extends Controller
     //movie detail
 
     public function videodetail($slug){
-        $singlevideo = DB::table('videos')->where('slug',$slug)->first();
+        $singlevideo = Video::where('slug',$slug)->first();
         $views = $singlevideo->views;
         $category = explode(',',$singlevideo->category_id);
         $category = $category[0];
         if (!empty($singlevideo)) {
-            DB::table('videos')->where('slug', $slug)->update(['views'=>$views + 1]);
+           Video::where('slug', $slug)->update(['views'=>$views + 1]);
         }else{
             return null;
         }
      
 
-        $videos = DB::table('videos')->where('category_id','LIKE','%'.$category.'%')->whereNotIn('vid', [$singlevideo->vid])->inRandomOrder()->paginate(12);
+        $videos = Video::where('category_id','LIKE','%'.$category.'%')->whereNotIn('id', [$singlevideo->id])->inRandomOrder()->take(8)->get();
         return view('Client.landing.videodetail',['singlevideo'=>$singlevideo, 'videos'=>$videos
         ]);
     }
     public function searchcontent(){
-        $url ='http://watchlive.streetceostv.com/videodetail';
+        $url ='http://127.0.0.1:8000/videodetail';
         $text=$_GET['text'];
-        $data = DB::table('videos')->where('title','LIKE','%'.$text.'%')->orwhere('description','LIKE','%'.$text.'%')->get();
+        $data =Video::where('title','LIKE','%'.$text.'%')->orwhere('description','LIKE','%'.$text.'%')->get();
         $output='';
         echo '<ul class="search-result">';
         if (count($data)> 0) {
@@ -123,4 +125,27 @@ class clientController extends Controller
             return view('Client.landing.subscription',['Subscribed_user'=>$Subscribed_user,'Userplan'=>$Userplan]);
         }
      }
+
+     public function LikeVideo(Request $request){
+
+        $myvideo = Video::find($request->id);
+        $response = auth()->user()->toggleLike($myvideo);
+
+        return response()->json(['success'=>$response]);
+    }
+
+
+    //adding and removing a favourite video
+    public function favourite(Request $request){
+
+        $myvideo = Video::find($request->id);
+        $response = auth()->user()->toggleFavorite($myvideo);
+
+        return response()->json(['success'=>$response]);
+    }
+
+    public function watchlist(){
+        $videos = auth()->user()->getFavoriteItems(Video::class)->paginate(8);
+        return view('Client.landing.watchlist',['videos'=>$videos]);
+    }
 }

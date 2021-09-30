@@ -19,7 +19,13 @@
                                 <a href="#" class="close" data-dismiss="alert">&times;</a> 
                                 {{ Session('alert1')}}
                             </div> 
-                        @endif 
+                        @endif
+						@if(Session::has('alert2'))
+                            <div class="alert alert-success alert-dissmissable ">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a> 
+                                {{ Session('alert2')}}
+                            </div> 
+                        @endif  
 							<div class="transformers-content mtr-30">
 								<h2> {{ Auth::user()->name }}.</h2>
 								<a href="#" class="theme-btn">My Subscription</a>
@@ -74,12 +80,12 @@
                                             @if($Subscribed_user['status'] == 'active')
                                             <form method="POST" action="{{ url('cancel',$Subscribed_user['id'])}}" id="paymentForm $subscribed_User['id']}}">
                                                 {{ csrf_field() }}
-                                                <button class="btn btn-warning " type="submit">Cancel My Subscription</button>
+                                                <button class="theme-btn theme-btn1 " type="submit">Cancel My Subscription</button>
                                             </form>     
                                                 @else
                                             <form method="POST" action="{{ url('activate',$Subscribed_user['id'])}}" id="paymentForm $subscribed_User['id']}}">
                                                 {{ csrf_field() }}    
-                                                <button class="btn btn-success " type="submit">Actvate My Subscription</button>
+                                                <button class="theme-btn theme-btn1 " type="submit">Actvate My Subscription</button>
                                             </form>
                                             @endif      
 										</div>

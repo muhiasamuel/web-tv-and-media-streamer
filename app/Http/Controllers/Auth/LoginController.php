@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use DB;
+use Session;
 class LoginController extends Controller
 {
     /*
@@ -39,8 +40,8 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    public function redirectTo(){
-        
+   
+    public function redirectTo(){       
         $this->redirectTo = \route('client.landing-page');
         return $this->redirectTo;
      } 

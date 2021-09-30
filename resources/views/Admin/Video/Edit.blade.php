@@ -16,10 +16,10 @@
 			</div> 
 			@endif 
 			<div class="row">
-			<form method="post" action="{{url('updatevideo')}}/{{$videodata->vid}}"  enctype="multipart/form-data">
+			<form method="post" action="{{url('updatevideo')}}/{{$videodata->id}}"  enctype="multipart/form-data">
             @csrf
 			<input type="hidden" name="tbl" value="{{encrypt('videos')}}">
-			<input type="hidden" name="vid" value="{{$videodata->vid}}">
+			<input type="hidden" name="id" value="{{$videodata->id}}">
 					<div class="col-sm-9">
 						<div class="form-group">	
 							<input type="text" name="title" id="video_title" class="form-control" value="{{$videodata->title}}">				

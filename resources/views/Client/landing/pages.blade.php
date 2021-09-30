@@ -3,10 +3,15 @@
 @section('content')
 
 <div class="container">
-    <div class="title">
-        <h4>{{$page->title}}</h4>
-    </div>
+	<div class="row"> 
+	    <div class="col-lg-12">	
+            <div class="breadcrumb-area-content">									
+				<h1>{{$page->title}}</h1>
+			</div>
+		</div>
+	</div>				
 </div>
-
-
+<div class="container">
+{!!($page->description) !!}
+</div>
 @endsection

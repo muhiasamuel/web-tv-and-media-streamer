@@ -1,14 +1,15 @@
 <?php
 
 namespace App;
-
+use Overtrue\LaravelLike\Traits\Liker;
+use Overtrue\LaravelFavorite\Traits\Favoriter;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use Liker,Favoriter, Notifiable;
     
     protected $table = 'users';
     protected $primarykey = 'id';

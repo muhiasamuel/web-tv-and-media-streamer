@@ -78,7 +78,11 @@ class videoController extends Controller
         }
 
         DB::table($tbl)->insert($data);
-        session::flash('message',' Data Has Been Inserted Successfully');
+        if ($request->has('message')) {
+            session::flash('message','Your message has been received. Thankyou for reaching out to us.');
+            return redirect()->back();
+        }
+        session::flash('message','Data Has Been Inserted Successfully');
         return redirect()->back();
         
     }
@@ -111,7 +115,7 @@ class videoController extends Controller
      */
     public function edit($id)
     {
-        $videodata = DB::table('videos')->where('vid',$id)->first();
+        $videodata = DB::table('videos')->where('id',$id)->first();
        $categories = DB::table('categories')->get();
        $vidcat = explode(',',$videodata->category_id);
        return view('Admin.video.Edit',['videodata'=>$videodata,'categories'=>$categories, 'vidcat'=>$vidcat]); 

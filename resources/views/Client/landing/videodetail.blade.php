@@ -1,6 +1,7 @@
 @extends('Client.landing.index')
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v11.0" nonce="tsSz0D9C"></script>
 <script>
@@ -20,58 +21,105 @@
 		return t;
 	}(document, "script", "twitter-wjs"));
 </script>
-
-<section class="breadcrumb-area"style = "background-image:
-linear-gradient(to left,rgba(0,0,0,0.85) 1%, rgba(0,0,0,0.68) 20%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.35) 60% ,rgba(0,0,0,0.5) 80% ,rgba(0,0,0,0.85) 100%),
-url('{{asset('videos/images/'.$singlevideo->image)}}');" >					
-	<div class="container">
-                      <div class="row"> 
-                          <div class="col-lg-12">                          
+	@php
+	$value = explode('=',$singlevideo->videolink);
+ 		$value = $value[1];
+	@endphp										
 										
-                              			<div class="breadcrumb-area-content">
-                              			@if($singlevideo->video != '' )
-										<a href="{{asset('videos/vids/'.$singlevideo->video)}}" class="popup-youtube">
-										@else
-										<a href="{{$singlevideo->videolink}}" class="popup-youtube" style="">
-										@endif
-										<i class="icofont icofont-ui-play"></i>
-									    </a>
-                              </div>
-                          </div>
-                          
-                      </div>
-					 
-                      <div class="cat-description">	
-                        <h1>{{$singlevideo->title}}</h1>								
-                        <p>{!!substr($singlevideo->description,0,18)!!}..
-							 
-                    </div>
-					
-                   
-				</div>
-			</section>
-			<section>
-			<div class="share-this">
-							<h5>Share This Via..</h5>
+<section class="videodetail-area"style = "background-image:
+linear-gradient(to left,rgba(0,0,0,0.85) 1%, rgba(0,0,0,0.68) 20%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.35) 60% ,rgba(0,0,0,0.5) 80% ,rgba(0,0,0,0.85) 100%),
+url('https://i.ytimg.com/vi/{{$value}}/sddefault.jpg'); width:100%;height:100%;scroll-margin-top:15rem; " >					
+			<div class="container">                        
+				<div class="breadcrumb-area-content">
+          			@if($singlevideo->video != '' )
+					<a href="{{asset('videos/vids/'.$singlevideo->video)}}" class="popup-youtube">
+					@else
+					<a href="{{$singlevideo->videolink}}?rel=0" class="popup-youtube" style="">
+					@endif
+					<i class="icofont icofont-ui-play"></i>
+					</a>
+                </div>              
+	               <div class="cat-description">	
+                        <h5>{!! substr($singlevideo->title,0,65) !!}...</h5>							 
+             	 </div>
+			  			<div class="share-this">							
 							<div class="social-send">
 								<div class="fb-share-button" 
 								data-href="{{url('videodetail')}}/{{$singlevideo->slug}}" 
 								data-layout="button_count" data-lazy="true">
 								</div>
 								<div class="whatsapp-share-button">
-								<a target="_blank" href="https://api.whatsapp.com/send?text=check out this awesome video:{{url('videodetail')}}/{{$singlevideo->slug}}" data-action="share/whatsapp/share"><i class="icofont icofont-social-whatsapp" style="color:rgb(4, 124, 90)"></i></a>
+								<a target="_blank" href="https://api.whatsapp.com/send?text=check out this awesome video:{{url('videodetail')}}/{{$singlevideo->slug}}" data-action="share/whatsapp/share"><i class="icofont icofont-social-whatsapp" style="color:rgb(9, 211, 127)"></i></a>
 								</div>
 								<div class="twitter-share-button">
-								<a target="_blank"href="https://twitter.com/intent/tweet?text={{url('videodetail')}}/{{$singlevideo->slug}}" ><i class="icofont icofont-social-twitter" style="border-right:none, color:rgb(4, 60, 90)"></i></a>
+								<a target="_blank"href="https://twitter.com/intent/tweet?text={{url('videodetail')}}/{{$singlevideo->slug}}" ><i class="icofont icofont-social-twitter" style="border-right:none; color:#3888f0"></i></a>									
 								</div>
+							</div>
+							<div class="toggle-share">
+							<i class="icofont icofont-share"></i>
 							</div>	
 						</div>
+			
+                  		<div class="views">					
+                            <h6>
+                                {{$singlevideo->views + 1}} |
+                                <i class="icofont icofont-eye" ></i>|
+                                @if($singlevideo->views != 0)
+                                views
+                                @else
+                                View
+                                @endif
+                            </h6>
+                        </div>
+</div>
+			</section>
+			<section>
+			<div class="row" id = "overtrue">
+				<div class="fav " id="{{ $singlevideo->id }}">
+					@if(auth()->user()->hasFavorited($singlevideo))
+					<i class="icofont icofont-minus" > From Watchlist </i>
+					@else
+					<i class="icofont icofont-plus" >To Watchlist </i>
+                	@endif
+												
+				</div>
+					<div  class="panel " id="{{ $singlevideo->id }}">
+				<span>
+					<div id="like{{$singlevideo->id}}-bs3">
+							 @if(auth()->user()->hasLiked($singlevideo))
+							 @if($singlevideo->likers()->get()->count() > 1)
+							 <p>You and {{ $singlevideo->likers()->get()->count() }} others liked</p>
+							 @else
+							 <p>You liked this video</p>
+							 @endif
+							 @else
+							 @if( $singlevideo->likers()->get()->count() == 1)
+							 <p>Liked by {{ $singlevideo->likers()->get()->count() }} person</p>
+							 @else
+							 <p>Liked by {{ $singlevideo->likers()->get()->count() }} People</p>
+							 @endif
+							 @endif
+							 </div>
+							 @if(auth()->user()->hasLiked($singlevideo))
+						 <i id="liked{{$singlevideo->id}}"style="color: #f70475" class="icofont icofont-thumbs-up"></i>
+							@else
+						<i id="liked{{$singlevideo->id}}" style="color:white" class="icofont icofont-thumbs-down"></i>
+                                          @endif
+						@if(auth()->user()->hasFavorited($singlevideo))
+						<i class="icofont icofont-love" style="color:#ff0000"> </i>
+						@else
+						<i class=" icofont icofont-love" style="color:#fff"></i>
+                                          @endif
+					</div>
+				</span>
+			</div>
+					
 						<!-- Button trigger modal -->
 						<div id="modal-btn">
-							<h5>About This Video </h5>
-							<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#videodescmodal">
-							Read More
+							<button type="button" class="btn btn-secondary"  data-toggle="modal" data-target="#videodescmodal">
+							<p style="font-size:11px;">About this video</p>
 							</button>
+							
 						</div>
 
 						<!-- Modal -->
@@ -96,55 +144,98 @@ url('{{asset('videos/images/'.$singlevideo->image)}}');" >
 								</div>
 							</div>
 							</div>	
+					
+						</div>
 						</div>
 			
 				<div class="container" id="related">
-					<h1>You may also like</h1>
+					<h3>You may also like</h3>
 					<hr>
 						<div class="row">
 					<div class="col-lg-12">
 						<div class="row portfolio-item">
-							
-						@foreach($videos as $vid)
-							<div class="col-md-3 col-sm-6 released">
+						
+						@foreach($videos as $video)
+						<div class="col-md-3 col-sm-4 top">
 								<div class="single-portfolio">
 									<div class="single-portfolio-img">
-										@if($vid->image != '' )
-										<img class="lazy" data-src="{{asset('videos/images/'.$vid->image)}}" />
+									@if($video->videolink == '' )
+										<img class="lazy" data-src="{{asset('videos/images/'.$video->image)}}" style="width: 280px; height: 180px;" alt="{{$video->title}}" />
 										@else
-										<div class="video"  style="width: 300px; height: 150px;">
-										</div>
+										@php
+										$value = explode('=',$video->videolink);
+               							$value = $value[1];
+										@endphp							
+										<img class="lazy" data-src="https://i.ytimg.com/vi/{{$value}}/sddefault.jpg" />										
 										@endif
-										@if($vid->video != '' )
-										<a href="{{url('videodetail')}}/{{$vid->slug}}" class="popin-youtube">
+										@if($video->video != '' )
+										<a href="{{url('videodetail')}}/{{$video->slug}}" class="popin-youtube">
 										@else
-										<a href="{{url('videodetail')}}/{{$vid->slug}}" class="popin-youtube" style="width: 300px; height: 150px;">
+										<a href="{{url('videodetail')}}/{{$video->slug}}" class="popin-youtube" style="width: 300px; height: 150px;">
 										@endif
 										<i class="icofont icofont-ui-play"></i>
 									    </a>
-										
+										<p>{{$video->views}} <i class="icofont icofont-eye"></i> views</p>
+																				
 										</a>
+										<div class="favorite">
+										
+										<div class="fav " id="{{ $video->id }}">
+												@if(auth()->user()->hasFavorited($video))
+												<i class="icofont icofont-minus" > From Watchlist </i>
+												@else
+												<i class="icofont icofont-plus" >To Watchlist </i>
+                                                @endif
+												
+											</div>
+										</div>
 									
 									</div>
 									<div class="portfolio-content">
-									
 										<div class="review">
-										<h6>{{$vid->title}}</h6>
+										<h6>{{$video->title}}</h6>
 										
-											<div class="author-review">
-											<p>{{$vid->views}} <i class="icofont icofont-eye"></i> views</p>
-											</div>
+										<div class="row" id = "overtrue">
 											
+											<div  class="panel " id="{{ $video->id }}">
+											<span>
+											<div id="like{{$video->id}}-bs3">
+													 @if(auth()->user()->hasLiked($video))
+													 @if($video->likers()->get()->count() > 1)
+													 <p>You and {{ $video->likers()->get()->count() }} others liked</p>
+													 @else
+													 <p>You liked this video</p>
+													 @endif
+													 @else
+													 @if( $video->likers()->get()->count() == 1)
+													 <p>Liked by {{ $video->likers()->get()->count() }} person</p>
+													 @else
+													 <p>Liked by {{ $video->likers()->get()->count() }} People</p>
+													 @endif
+													 @endif
+													 </div>
+													 @if(auth()->user()->hasLiked($video))
+												 <i id="liked{{$video->id}}"style="color: #f70475" class="icofont icofont-thumbs-up"></i>
+													@else
+												<i id="liked{{$video->id}}" style="color:white" class="icofont icofont-thumbs-down"></i>
+                                                @endif
+                                                
+												@if(auth()->user()->hasFavorited($video))
+												<i class="icofont icofont-love" style="color:#ff0000"> </i>
+												@else
+												<i class=" icofont icofont-love" style="color:#fff"></i>
+                                                @endif
+											</div>
+											</span>
+											</div>
 										</div>
 									</div>
+									
 								</div>
 							</div>
 							@endforeach	
-							
-							
+						
 						</div>
-						<div class="d-flex justify-content-center" style="">								
-								{!! $videos->links() !!}
 							</div>
     </div>
 </section>
