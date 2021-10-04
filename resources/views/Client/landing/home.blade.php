@@ -347,7 +347,6 @@
 				</div>
 			</div>
 		</section><!-- portfolio section end -->
-		<!-- video section start -->
 		<section class="video ptb-40">
 			<div class="container">
 					<div class="col-md-12">
